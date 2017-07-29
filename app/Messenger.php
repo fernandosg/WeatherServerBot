@@ -1,4 +1,5 @@
 <?php
+namespace App;
 class Messenger{
   var $access_token;
   var $id_page;
@@ -27,10 +28,19 @@ class Messenger{
       echo $challenge;
     }else{
       $this->sender = $this->input['entry'][0]['messaging'][0]['sender']['id'];
-      $this->message = $this->input['entry'][0]['messaging'][0]['message']['text'];
+      $this->message = array_key_exists("message",$this->input['entry'][0]['messaging'][0]) ? $this->input['entry'][0]['messaging'][0]["message"]["text"] : "";
       $this->initCurl();
     }
-    $this->setPostback();
+    if($this->isAPostback()){
+      $this->setPostback();
+    }
+  }
+
+  function isAPostback(){
+    if($this->input["entry"][0]["messaging"][0]!=null){
+      return array_key_exists("postback",$this->postback=$this->input["entry"][0]["messaging"][0]);
+    }
+    return false;
   }
 
   function initCurl(){
@@ -43,7 +53,7 @@ class Messenger{
 
   function isPostbackLike($compare_postback){
     if(!empty($this->postback)){
-      return $this->postback==$compare_postback;
+      return $this->postback["postback"]["payload"]==$compare_postback;
     }
     return false;
   }
