@@ -47,6 +47,14 @@ class Messenger{
     return false;
   }
 
+  function isTheUser(){
+    $message=$this->input["entry"][0]["messaging"][0];
+    if(array_key_exists("message",$message)){
+      return !array_key_exists("is_echo",$message["message"]);
+    }
+    return false;
+  }
+
   function initCurl(){
     $this->handler = curl_init($this->url);
   }
