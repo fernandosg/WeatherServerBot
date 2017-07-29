@@ -18,6 +18,7 @@ class BotCommunication{
       $message=$m->message;
       $message->last_message=$type_message;
       $message->boolean=false;
+      $message->save();
     }else{
       $message=$this->m_message::create(["last_message"=>$type_message,"status"=>"false"]);
       $this->m::create(["message_id"=>$message->id,"message"=>$type_message,"fb_id"=>$this->sender_id]);
