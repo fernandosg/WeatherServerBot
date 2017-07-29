@@ -4,13 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chats extends Model {
 
-    protected $fillable = ["fb_id", "message_id","message"];
+    protected $fillable = ["fb_id", "message_id"];
 
     protected $dates = [];
 
     public static $rules = [
         "fb_id" => "required",
-        "message" => "unsigned",
         "message_id" => "required|numeric",
     ];
 
@@ -18,7 +17,7 @@ class Chats extends Model {
 
     public function message()
     {
-        return $this->belongsTo("App\Message");
+        return $this->belongsTo("App\Messages");
     }
 
 
