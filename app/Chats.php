@@ -4,21 +4,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chats extends Model {
 
-    protected $fillable = ["fb_id", "message_id"];
+    protected $fillable = ["fb_id", "status", "last_message"];
 
     protected $dates = [];
 
     public static $rules = [
         "fb_id" => "required",
-        "message_id" => "required|numeric",
     ];
 
     public $timestamps = false;
 
-    public function message()
-    {
-        return $this->belongsTo("App\Messages");
-    }
 
 
 }
