@@ -15,13 +15,13 @@ class BotCommunication{
   public function saveCommunication($type_message){
     $chat=$this->m::where("fb_id",$this->sender_id)->first();
     if($chat!=null){
-      $message=$m->message;
+      $message=$chat->message;
       $message->last_message=$type_message;
-      $message->boolean=false;
+      $message->status=false;
       $message->save();
     }else{
-      $message=$this->m_message::create(["last_message"=>$type_message,"status"=>"false"]);
-      $this->m::create(["message_id"=>$message->id,"message"=>$type_message,"fb_id"=>$this->sender_id]);
+      $message=$this->m_message::create(["last_message"=>$type_message,"status"=>false]);
+      $this->m::create(["message_id"=>$message->id,"fb_id"=>$this->sender_id]);
     }
   }
 }
