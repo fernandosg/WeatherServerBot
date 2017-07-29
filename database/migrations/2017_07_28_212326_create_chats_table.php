@@ -11,11 +11,8 @@ class CreateChatsTable extends Migration
         Schema::create('chats', function(Blueprint $table) {
             $table->increments('id');
             $table->string('fb_id');
-            $table->integer('message_id')->unsigned();
-            $table->foreign('message_id')
-                ->references('id')
-                ->on('messages');
-
+            $table->integer("last_message");
+            $table->boolean("status");
         });
     }
 
