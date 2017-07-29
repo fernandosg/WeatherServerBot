@@ -36,4 +36,5 @@ $app->delete('chats/{id}', 'ChatsController@remove');
 /**
  * Routes for resource bot
  */
- $app->post("boot/talk","BotsController@talk");
+ $app->post("bots/talk","BotsController@talk");
+ $app->get("bots/talk","BotsController@talk");
