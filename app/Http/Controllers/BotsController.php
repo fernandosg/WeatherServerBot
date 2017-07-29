@@ -19,14 +19,27 @@ class BotsController extends Controller {
       $BotCommunication=new $bot($msn->getSender());
       if($msn->isAPostback()){
         if($msn->isPostbackLike("ACCEPTING")){
-          $msn->sendMessage("Thanks for accepting");
-          $BotCommunication->saveCommunication(2);
+          $this->ACCEPTING($msn,$BotCommunication);
         }else if($msn->isPostbackLike("NOT_ACCEPTING")){
-          $msn->sendMessage("Maybe the next time =/");
-          $BotCommunication->saveCommunication(3);
+          $this->NOT_ACCEPTING($msn,$BotCommunication);
         }
       }else{
-        $msn->sendMessageWithMultipleButtons("This is the message that should be displayed in the box of multiple button selection",array(array("type"=>"postback","title"=>"I am agree","payload"=>"ACCEPTING"),array("type"=>"postback","title"=>"I am not agree","payload"=>"NOT_ACCEPTING")));
+        $this->sendMessageWithMultipleButtons($msn,$BotCommunication);
       }
+    }
+
+    public function sendMessageWithMultipleButtons($msn,$BotCommunication){
+        $msn->sendMessageWithMultipleButtons("This is the message that should be displayed in the box of multiple button selection",array(array("type"=>"postback","title"=>"I am agree","payload"=>"ACCEPTING"),array("type"=>"postback","title"=>"I am not agree","payload"=>"NOT_ACCEPTING")));
+        $BotCommunication->saveCommunication(1,false);
+    }
+
+    public function NOT_ACCEPTING($msn,$BotCommunication){
+        $msn->sendMessage("Maybe the next time =/");
+        $BotCommunication->saveCommunication(3,true);
+    }
+
+    public function ACCEPTING($msn,$BotCommunication){
+      $msn->sendMessage("Thanks for accepting");
+      $BotCommunication->saveCommunication(2,true);
     }
 }
