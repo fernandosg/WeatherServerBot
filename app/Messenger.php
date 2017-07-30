@@ -40,6 +40,10 @@ class Messenger{
     return $this->sender;
   }
 
+  function getMessage(){
+    return $this->message;
+  }
+
   function isAPostback(){
     if($this->input["entry"][0]["messaging"][0]!=null){
       return array_key_exists("postback",$this->postback=$this->input["entry"][0]["messaging"][0]);
