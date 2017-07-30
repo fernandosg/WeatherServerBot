@@ -46,15 +46,17 @@ class Messenger{
 
   function isAPostback(){
     if($this->input["entry"][0]["messaging"][0]!=null){
-      return array_key_exists("postback",$this->postback=$this->input["entry"][0]["messaging"][0]);
+      return array_key_exists("postback",$this->input["entry"][0]["messaging"][0]);
     }
     return false;
   }
 
   function isTheUser(){
     $message=$this->input["entry"][0]["messaging"][0];
-    if(array_key_exists("message",$message)){
-      return !array_key_exists("is_echo",$message["message"]);
+    if($message!=null){
+      if(array_key_exists("message",$message)){
+        return !array_key_exists("is_echo",$message["message"]);
+      }
     }
     return false;
   }
@@ -69,7 +71,7 @@ class Messenger{
 
   function isPostbackLike($compare_postback){
     if(!empty($this->postback)){
-      return $this->postback["postback"]["payload"]==$compare_postback;
+      return $this->postback==$compare_postback;
     }
     return false;
   }
