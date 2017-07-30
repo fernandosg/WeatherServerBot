@@ -22,18 +22,22 @@ class BotsController extends Controller {
     if($this->msn->isAPostback()){
       if($this->msn->isPostbackLike("TAMPICO_WEATHER_DELIVERING")){
         if($last_talk["is_closed"])
-          $this->sendWeatherMessage("Tampico",1,true);
+          $this->sendWeatherMessage("Tampico",1,false);
         else
           $this->fireNotClosedTalk($last_talk["last_message"]);
       }else if($this->msn->isPostbackLike("CDMADERO_WEATHER_DELIVERING")){
         if($last_talk["is_closed"])
-          $this->sendWeatherMessage("Ciudad Madero",2,true);
+          $this->sendWeatherMessage("Ciudad Madero",2,false);
         else
           $this->fireNotClosedTalk($last_talk["last_message"]);
       }else if($this->msn->isPostbackLike("ALTAMIRA_WEATHER_DELIVERING")){
-        $this->sendWeatherMessage("Altamira",3,true);
+        $this->sendWeatherMessage("Altamira",3,false);
       }else if($this->msn->isPostbackLike("STOP_TALKING")){
         $this->NOT_ACCEPTING();
+      }else if($this->msn->isPostbackLike("TODAY_WEATHER")){
+        $this->msn->sendMessage("The weather today is ");
+      }else if($this->msn->isPostbackLike("TOMORROW_WEATHER")){
+        $this->msn->sendMessage("The weather tomorrow is");
       }
     }else if($this->msn->isTheUser() && $this->msn->getMessage()=="Hi"){
       $this->sendMessageWithMultipleButtons();
@@ -47,9 +51,13 @@ class BotsController extends Controller {
     $this->BotCommunication->saveCommunication(1,true);
   }
 
+  public function sendMessageForDays(){
+    $this->msn->sendMessageWithMultipleButtons("¡Great!, ¿which day do you want to know the weather? ",array(array("type"=>"postback","title"=>"Today","payload"=>"TODAY_WEATHER"),array("type"=>"postback","title"=>"Tomorrow","payload"=>"TOMORROW_WEATHER")));
+    $this->BotCommunication->saveCommunication(4,false);
+  }
 
   public function sendWeatherMessage($city,$option,$is_conclude){
-    $this->msn->sendMessage("The ".$city." Weather is");
+    $this->sendMessageForDays();
     $this->BotCommunication->saveCommunication($option,$is_conclude);
   }
 
