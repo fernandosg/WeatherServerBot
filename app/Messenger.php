@@ -61,6 +61,10 @@ class Messenger{
     return false;
   }
 
+  function getPostback(){
+    return $this->postback!=null ? $this->postback : "";
+  }
+
   function initCurl(){
     $this->handler = curl_init($this->url);
   }
