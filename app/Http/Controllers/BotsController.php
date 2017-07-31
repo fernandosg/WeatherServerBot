@@ -6,6 +6,7 @@ class BotsController extends Controller {
   const MODEL = "App\Chats";
   const FbMessenger = "App\Messenger";
   const BotCommunication = "App\BotCommunication";
+  const WeatherFetch="App\WeatherFetch";
   var $msn;
   var $BotCommunication;
   use RESTActions;
@@ -13,6 +14,7 @@ class BotsController extends Controller {
   public function talk(Request $request){
     $m = self::FbMessenger;
     $bot=self::BotCommunication;
+    $WeatherFetch=self::WeatherFetch;
     $accesstoken=env('ACCESS_TOKEN', "");
     $page_id=693777000809331;//YOUR PAGE_ID
     $this->msn=new $m($accesstoken,$page_id,json_decode(file_get_contents('php://input'), true));
@@ -24,7 +26,8 @@ class BotsController extends Controller {
       if(strpos($postback,"WEATHER")!==false){
           $information=explode("_",$postback);
           if(sizeof($information)>=3){
-              $this->msn->sendMessage("The weather ".$information[1]." in ".$information[0]." is");
+              $weather=$WeatherFetch::getTemperatureByCity($information[0],env("WEATHER_API_KEY",""));
+              $this->msn->sendMessage("The weather ".$information[1]." in ".$information[0]." is ".$weather->main->temp);
               $this->BotCommunication->saveCommunication($this->getCityIndex($information[0])+5,true);// VER COMO PONERLE EL INDICE
           }else if(sizeof($information)==2){
             $this->sendWeatherMessage($information[0],$this->getCityIndex($information[0]),false);// VER COMO PONERLE EL INDICE
