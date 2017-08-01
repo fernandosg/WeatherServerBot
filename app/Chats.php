@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chats extends Model {
 
-    protected $fillable = ["fb_id", "status", "last_message"];
+    protected $fillable = ["fb_id", "status", "last_message","postback"];
 
     protected $dates = [];
 

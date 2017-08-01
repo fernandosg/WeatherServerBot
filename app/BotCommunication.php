@@ -12,14 +12,15 @@ class BotCommunication{
     $this->m_message=self::MODEL_MESSAGE;
   }
 
-  public function saveCommunication($type_message,$it_concluded){
+  public function saveCommunication($type_message,$postback,$it_concluded){
     $chat=$this->m::where("fb_id",$this->sender_id)->first();
     if($chat!=null){
       $chat->last_message=$type_message;
       $chat->status=$it_concluded;
+      $chat->postback=$postback;
       $chat->save();
     }else{
-      $this->m::create(["last_message"=>$type_message,"status"=>$it_concluded,"fb_id"=>$this->sender_id]);
+      $this->m::create(["last_message"=>$type_message,"status"=>$it_concluded,"fb_id"=>$this->sender_id,"postback"=>$postback]);
     }
   }
 
@@ -27,9 +28,9 @@ class BotCommunication{
   public function isSomeTalkNotClosed(){
     $chat=$this->m::where("fb_id",$this->sender_id)->first();
     if($chat!=null){
-      return array("is_closed"=>(($chat->status==true)),"last_message"=>$chat->last_message);
+      return array("is_closed"=>(($chat->status==true)),"last_message"=>$chat->last_message,"postback"=>$chat->postback);
     }
-    return array("is_closed"=>true,"last_message"=>1);
+    return array("is_closed"=>true,"last_message"=>1,"postback"=>"");
   }
 }
 ?>
