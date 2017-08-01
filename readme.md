@@ -39,7 +39,7 @@ There is need for 2 things:
 * 2.- Run a web server.
 
 * 1.- Run Ngrok
-Once you download [Ngrok] (https://ngrok.com/), you must extract the .exe file into the project's public folder. Once you have the .exe file, open your terminal and position it in the public folder, once you have just run it in your terminal:
+Once you download [Ngrok](https://ngrok.com/), you must extract the .exe file into the project's public folder. Once you have the .exe file, open your terminal and position it in the public folder, once you have just run it in your terminal:
 
 ```
 Ngrok http PORT
