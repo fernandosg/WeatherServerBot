@@ -26,7 +26,7 @@ class BotsController extends Controller {
       if(strpos($postback,"WEATHER")!==false){
           $information=explode("_",$postback);
           if(sizeof($information)>=3){
-              $weather=$WeatherFetch::getTemperatureByCity($information[0],env("WEATHER_API_KEY",""));
+              $weather=$WeatherFetch::getTemperatureByCityOnDay($information[0],env("WEATHER_API_KEY",""),$information[1]);
               $this->msn->sendMessage("The weather ".$information[1]." in ".$information[0]." is ".$weather->main->temp);
               $this->BotCommunication->saveCommunication($this->getCityIndex($information[0])+5,true);// VER COMO PONERLE EL INDICE
           }else if(sizeof($information)==2){
